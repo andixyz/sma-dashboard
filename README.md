@@ -31,6 +31,15 @@ SMA_WEBUI_HOST specifies the IP address to your SMA inverter.
 
     docker compose --env-file ./.env.xyz up -d 
 
+Access InfluxDB by calling (see .env file for username and password)
+
+http://localhost:8086
+
+Access Grafana by calling
+
+http://localhost:3000
+
+
 ## Web UI Adapter
 
 Actual supporting [measures](https://github.com/andixyz/sma-dashboard/blob/main/adapter/sma-webui-adapter/src/main/resources/application.properties):
