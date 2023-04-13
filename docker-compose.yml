@@ -1,0 +1,56 @@
+services:
+  sma-webui-adapter:
+    image: ${WEBUI_ADAPTER_IMAGE}
+    build:
+      context: ./
+      dockerfile: ./adapter/sma-webui-adapter/Dockerfile
+    depends_on:
+      - influxdb
+    environment:
+      TZ: Europe/Berlin
+      SMA_PA_INFLUXDB_URL: http://influxdb:8086
+      SMA_PA_INFLUXDB_TOKEN: ${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN}
+      SMA_WEBUI_PASSWD: ${SMA_WEBUI_PASSWD}
+      SMA_WEBUI_HOST: ${SMA_WEBUI_HOST}
+
+  node-red:
+    image: nodered/node-red:latest
+    ports:
+      - 1880:1880
+      - 9522:9522/udp
+    volumes:
+      - node-red-data:/data
+
+  influxdb:
+    image: influxdb:latest
+    restart: always
+    volumes:
+      - influxdb:/var/lib/influxdb
+    ports:
+      - 8083:8083
+      - 8086:8086
+    environment:
+      TZ: Europe/Berlin
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${DOCKER_INFLUXDB_INIT_PASSWORD}
+      DOCKER_INFLUXDB_INIT_ORG: ${DOCKER_INFLUXDB_INIT_ORG}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${DOCKER_INFLUXDB_INIT_BUCKET}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN}
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - influxdb
+    environment:
+      TZ: Europe/Berlin
+    volumes:
+      - grafana:/var/lib/grafana
+
+volumes:
+  grafana:
+  influxdb:
+  node-red-data:

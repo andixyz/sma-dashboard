@@ -1,0 +1,7 @@
+.env.roehre20
+
+.idea/**
+
+**/target/**
+
+**/.flattened-pom.xml
