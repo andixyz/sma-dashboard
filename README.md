@@ -33,7 +33,7 @@ SMA_WEBUI_HOST specifies the IP address to your SMA inverter.
 
 ## Web UI Adapter
 
-Actual supporting measures:
+Actual supporting [measures](https://github.com/andixyz/sma-dashboard/blob/main/adapter/sma-webui-adapter/src/main/resources/application.properties):
 
 | ID            | Code                    | Name DE                       | Name EN |
 |---------------|-------------------------|-------------------------------|---------|
