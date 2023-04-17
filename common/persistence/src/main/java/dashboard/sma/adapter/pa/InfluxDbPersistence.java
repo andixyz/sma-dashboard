@@ -47,9 +47,18 @@ public class InfluxDbPersistence implements SmaDashboardPersistence {
                         .time(timestamp, WritePrecision.MS))
             .toList();
 
+    var points2 =
+            measurements.entrySet().stream()
+                    .map(
+                            stringLongEntry ->
+                                    Point.measurement("STP8.0-3SE-40")
+                                            .addField(stringLongEntry.getKey(), stringLongEntry.getValue())
+                                            .time(timestamp, WritePrecision.MS))
+                    .toList();
     try {
       writeApi.writePoints(points);
-      log.info(measurements.toString());
+      writeApi.writePoints(points2);
+      log.debug(measurements.toString());
     } catch (Exception e) {
       log.error("{} during communication: {}", e.getClass().getSimpleName(), e.getMessage());
     }
