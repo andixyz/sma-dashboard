@@ -34,6 +34,7 @@
 
     <modules>
         <module>sma-webui-adapter</module>
+        <module>sma-csv-adapter</module>
     </modules>
 
 </project>
