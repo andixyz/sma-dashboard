@@ -29,7 +29,11 @@ public class SmaAdapterServiceImpl implements SmaAdapterService {
   @Override
   @Scheduled(fixedRateString = "${sma.webui.adapter.fetchMeasures}")
   public void poll() {
-    var values = this.smaClient.getValues();
-    this.smaDashboardPersistence.saveMeasurements("roehre20", values);
+    try {
+      var values = this.smaClient.getValues();
+      this.smaDashboardPersistence.saveMeasurements("roehre20", values);
+    } catch (Exception e) {
+      log.error("Got exception while requesting SMA values: {}", e.getMessage());
+    }
   }
 }
